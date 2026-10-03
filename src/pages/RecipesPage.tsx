@@ -11,12 +11,14 @@ export const RecipesPage = () => {
   const [favoritesOnly, setFavoritesOnly] = useState(false)
 
   const matches = useMemo(() => {
-    if (!recipes.data || !pantry.data) {
+    if (!recipes.data) {
       return []
     }
 
+    const pantryItems = pantry.data ?? []
+
     return recipes.data
-      .map((recipe) => calculateRecipeMatch(recipe, recipe.recipe_ingredients, pantry.data))
+      .map((recipe) => calculateRecipeMatch(recipe, recipe.recipe_ingredients, pantryItems))
       .filter((match) => (onlyComplete ? match.missingIngredients.length === 0 : true))
       .filter((match) => (favoritesOnly ? match.recipe.is_favorite : true))
       .sort((a, b) => b.coverageRatio - a.coverageRatio)

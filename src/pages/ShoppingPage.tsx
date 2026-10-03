@@ -1,4 +1,5 @@
-import { FormEvent, useState } from 'react'
+import { useState } from 'react'
+import type { FormEvent } from 'react'
 import { shoppingApi } from '../lib/api'
 import { useAsyncData } from '../hooks/useAsyncData'
 import type { Unit } from '../types/domain'

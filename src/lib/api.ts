@@ -49,13 +49,18 @@ export const householdApi = {
       .from('household_members')
       .select('household:households(*)')
       .limit(1)
-      .single()
+      .maybeSingle()
 
     if (error && error.code !== 'PGRST116') {
       throw new Error(error.message)
     }
 
-    return data?.household ?? null
+    const household = data?.household as Household | Household[] | null | undefined
+    if (!household) {
+      return null
+    }
+
+    return Array.isArray(household) ? household[0] ?? null : household
   },
 
   createHousehold: async (name: string): Promise<string> => {
@@ -89,7 +94,8 @@ export const householdApi = {
       throw new Error(error.message)
     }
 
-    return data as { token: string; expires_at: string }
+    const row = Array.isArray(data) ? data[0] : data
+    return row as { token: string; expires_at: string }
   },
 
   acceptInvite: async (token: string) => {
@@ -211,7 +217,7 @@ export const recipeApi = {
     tags: string[]
     is_favorite: boolean
     ingredients: Omit<RecipeIngredient, 'id' | 'recipe_id'>[]
-    steps: Omit<RecipeStep, 'id' | 'recipe_id'>[]
+    steps: Array<{ instruction: string }>
   }) => {
     let recipeId = input.id
 

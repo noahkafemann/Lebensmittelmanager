@@ -21,13 +21,15 @@ export const DashboardPage = () => {
   }, [pantry.data])
 
   const suggestions = useMemo(() => {
-    if (!recipes.data || !pantry.data) {
+    if (!recipes.data) {
       return []
     }
 
+    const pantryItems = pantry.data ?? []
+
     return recipes.data
       .map((recipe) =>
-        calculateRecipeMatch(recipe, recipe.recipe_ingredients, pantry.data),
+        calculateRecipeMatch(recipe, recipe.recipe_ingredients, pantryItems),
       )
       .sort((a, b) => b.coverageRatio - a.coverageRatio)
       .slice(0, 3)
