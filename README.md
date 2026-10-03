@@ -143,3 +143,4 @@ npm run build
 
 - `VITE_BASE_PATH` und `BrowserRouter basename={import.meta.env.BASE_URL}` sind bereits integriert.
 - Für SPA-Fallback kann zusätzlich ein `404.html` auf `index.html` zeigen (optional, je nach Pages-Setup).
+
