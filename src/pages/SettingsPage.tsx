@@ -135,9 +135,19 @@ export const SettingsPage = () => {
               Einladung erstellen
             </button>
             {inviteToken && (
-              <p>
-                Einladungstoken: <code>{inviteToken}</code>
-              </p>
+              <div>
+                <p>
+                  <strong>Einladungslink:</strong>
+                </p>
+                <input
+                  value={`${window.location.origin}${window.location.pathname}?invite=${inviteToken}`}
+                  readOnly
+                  onClick={(event) => event.currentTarget.select()}
+                />
+                <p>
+                  Diesen Link kannst du an das Familienmitglied schicken.
+                </p>
+              </div>
             )}
           </form>
         </>
